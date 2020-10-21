@@ -69,6 +69,8 @@ def get_stock_data(stock_file):
 
     # add ta features
     # dfscaled = add_all_ta_features(dfscaled,open="Open", high="High", low="Low", close="Close", volume="Volume")
-
+    # to numpy and reduce
+    dfscaled = dfscaled["Close"]
+    dfscaled = dfscaled.values
     
     return dfscaled

@@ -38,13 +38,13 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
         if not hasPosition:
             # BUY long position
             if action == 1:
-                agent.inventory.append(data["Close"][t])
+                agent.inventory.append(data[t])
                 isShort = False
                 hasPosition = True
                 reward = IDLEPUNISH # small reward bc action done
             # Buy short position
             elif action == 2:
-                agent.inventory.append(data["Close"][t])
+                agent.inventory.append(data[t])
                 isShort = True
                 hasPosition = True
                 reward = IDLEPUNISH # small reward bc action done
@@ -55,8 +55,8 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
             # BUY - if it is a short close
             if action == 1 and isShort:
                 bought_price = agent.inventory.pop(0)
-                delta = -(data["Close"][t] - bought_price) 
-                reward = delta - (COMMISSIONPCT * data["Close"][t])
+                delta = -(data[t] - bought_price) 
+                reward = delta - (COMMISSIONPCT * data[t])
                 total_profit += reward
                 hasPosition = False
             # buy sig and only long
@@ -66,8 +66,8 @@ def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=1
             # Sell signal if we have a long position
             elif action == 2 and not isShort:
                 bought_price = agent.inventory.pop(0)
-                delta = data["Close"][t] - bought_price
-                reward = delta - (COMMISSIONPCT * data["Close"][t])
+                delta = data[t] - bought_price
+                reward = delta - (COMMISSIONPCT * data[t])
                 total_profit += reward
                 hasPosition = False
             # sell signal and have short
@@ -114,28 +114,28 @@ def evaluate_model(agent, data, window_size, debug):
         # BUY
         dec = None
         if action == 1:
-            agent.inventory.append(data["Close"][t])
+            agent.inventory.append(data[t])
 
-            history.append((data["Close"][t], "BUY"))
+            history.append((data[t], "BUY"))
             dec = "BUY"
             if debug:
-                print("Buy at: {}".format(format_currency(data["Close"][t])))
+                print("Buy at: {}".format(format_currency(data[t])))
         
         # SELL
         elif action == 2 and len(agent.inventory) > 0:
             bought_price = agent.inventory.pop(0)
-            delta = data["Close"][t] - bought_price
+            delta = data[t] - bought_price
             reward = delta #max(delta, 0)
             total_profit += delta
 
-            history.append((data["Close"][t], "SELL"))
+            history.append((data[t], "SELL"))
             dec = "SELL"
             if debug:
                 print("Sell at: {} | Position: {}".format(
-                    format_currency(data["Close"][t]), format_position(data["Close"][t] - bought_price)))
+                    format_currency(data[t]), format_position(data[t] - bought_price)))
         # HOLD
         else:
-            history.append((data["Close"][t], "HOLD"))
+            history.append((data[t], "HOLD"))
             dec = "HOLD"
 
         done = (t == data_length - 1)
@@ -144,5 +144,5 @@ def evaluate_model(agent, data, window_size, debug):
         state = next_state
         actionCollection.append(action)
         if done:
-            print("Final decision: ",dec, " at ",format_currency(data["Close"][t]))
+            print("Final decision: ",dec, " at ",format_currency(data[t]))
             return total_profit, history, actionCollection
