@@ -1,6 +1,6 @@
 docopt
 # numpy==1.19.0 # installed with tf
-tensorflow-gpu
+tensorflow #-gpu
 #keras
 tqdm
 pandas
