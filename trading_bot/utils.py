@@ -1,6 +1,8 @@
 import joblib
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
+import os
+#import tensorflow as tf
 
 
 # Formats Position
@@ -74,3 +76,12 @@ def get_stock_data(stock_file):
     dfscaled = dfscaled.values
     
     return dfscaled
+
+def switch_k_backend_device():
+    """ Switches `keras` backend from GPU to CPU if required.
+
+    Faster computation on CPU (if using tensorflow-gpu).
+    """
+    #is really faster.
+    print("switching to TensorFlow for CPU")
+    os.environ["CUDA_VISIBLE_DEVICES"] = "-1"

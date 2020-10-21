@@ -33,6 +33,7 @@ from trading_bot.utils import (
     format_currency,
     format_position,
     show_train_result,
+    switch_k_backend_device
 )
 import tensorflow as tf
 from tensorflow.python.client import device_lib
