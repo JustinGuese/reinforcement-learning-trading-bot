@@ -32,7 +32,7 @@ def show_eval_result(model_name, profit, initial_offset):
         print('{}: {}\n'.format(model_name, format_position(profit)))
 
 
-def get_stock_data(stock_file):
+def get_stock_datal(stock_file):
     """Reads stock data from csv file
     """
     # Datetime = Date if non hourly
@@ -76,6 +76,13 @@ def get_stock_data(stock_file):
     dfscaled = dfscaled.values
     
     return dfscaled
+
+
+def get_stock_data(stock_file):
+    """Reads stock data from csv file
+    """
+    df = pd.read_csv(stock_file)
+    return df['Close'].values
 
 def switch_k_backend_device():
     """ Switches `keras` backend from GPU to CPU if required.
