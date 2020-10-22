@@ -5,7 +5,7 @@ Usage:
   train.py <train-stock> <val-stock> [--strategy=<strategy>]
     [--window-size=<window-size>] [--batch-size=<batch-size>]
     [--episode-count=<episode-count>] [--model-name=<model-name>]
-    [--pretrained] [--debug]
+    [--pretrained] [--debug] [--cpu]
 
 Options:
   --strategy=<strategy>             Q-learning strategy to use for training the network. Options:
@@ -21,6 +21,7 @@ Options:
   --pretrained                      Specifies whether to continue training a previously
                                     trained model (reads `model-name`).
   --debug                           Specifies whether to use verbose logs during eval operation.
+  --cpu                             If True use cpu instead of gpu
 """
 
 
@@ -40,12 +41,15 @@ from tensorflow.python.client import device_lib
 
 def main(train_stock, val_stock, window_size, batch_size, ep_count,
          strategy="t-dqn", model_name="model_debug", pretrained=False,
-         debug=False):
+         debug=False,cpu=False):
     """ Trains the stock trading bot using Deep Q-Learning.
     Please see https://arxiv.org/abs/1312.5602 for more details.
 
     Args: [python train.py --help]
     """
+
+    if cpu:
+      switch_k_backend_device()
     
     print("#TF Version: ",tf.__version__)
 
@@ -77,13 +81,12 @@ if __name__ == "__main__":
     ep_count = int(args["--episode-count"])
     model_name = args["--model-name"]
     pretrained = args["--pretrained"]
+    cpu = args["--cpu"]
     debug = args["--debug"]
-
-    #switch_k_backend_device()
 
     try:
         main(train_stock, val_stock, window_size, batch_size,
              ep_count, strategy=strategy, model_name=model_name, 
-             pretrained=pretrained, debug=debug)
+             pretrained=pretrained, debug=debug, cpu=cpu)
     except KeyboardInterrupt:
         print("Aborted!")

@@ -2,6 +2,29 @@
 
 https://colab.research.google.com/drive/1E3cGnLMM55vM3jsmbmlCKmPqzMFyZfHC?usp=sharing
 
+
+# env install using conda
+
+## install miniconda or anaconda 
+
+```
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /home/ec2-user/miniconda.sh
+cd /home/ec2-user
+bash ./miniconda.sh -b -p /home/ec2-user/miniconda
+/home/ec2-user/miniconda/bin/conda init bash
+source /home/ec2-user/.bashrc
+conda create --name trading -y
+source activate trading
+conda install pip -y 
+```
+
+## install reqs 
+
+```
+conda install tensorflow-gpu
+pip install -r requirements_noTF.txt
+```
+
 ## run it
 
 # options
