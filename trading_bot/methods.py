@@ -103,40 +103,58 @@ def evaluate_model(agent, data, window_size, debug):
     
     state = get_state(data, 0, window_size + 1)
     actionCollection = []
-    print("Data lerngth",data_length)
+    hasPosition = False
+    isShort = False
+    COMMISSIONPCT = 0.00125
     for t in range(data_length):        
         reward = 0
-        print("eval dta size",data.shape)
         next_state = get_state(data, t + 1, window_size + 1)
         
         # select an action
         action = agent.act(state, is_eval=True)
         # BUY
-        dec = None
-        if action == 1:
-            agent.inventory.append(data[t])
-
-            history.append((data[t], "BUY"))
-            dec = "BUY"
-            if debug:
-                print("Buy at: {}".format(format_currency(data[t])))
-        
-        # SELL
-        elif action == 2 and len(agent.inventory) > 0:
-            bought_price = agent.inventory.pop(0)
-            delta = data[t] - bought_price
-            reward = delta #max(delta, 0)
-            total_profit += delta
-
-            history.append((data[t], "SELL"))
-            dec = "SELL"
-            if debug:
-                print("Sell at: {} | Position: {}".format(
-                    format_currency(data[t]), format_position(data[t] - bought_price)))
-        # HOLD
-        else:
-            history.append((data[t], "HOLD"))
-            dec = "HOLD"
+        if not hasPosition:
+            # BUY long position
+            if action == 1:
+                agent.inventory.append(data[t])
+                isShort = False
+                hasPosition = True
+                reward = 0 # small reward bc action done
+            # Buy short position
+            elif action == 2:
+                agent.inventory.append(data[t])
+                isShort = True
+                hasPosition = True
+                reward = 0 # small reward bc action done
+            # HOLD
+            else:
+                pass
+        else: # if there is an open position
+            # BUY - if it is a short close
+            if action == 1 and isShort:
+                bought_price = agent.inventory.pop(0)
+                delta = -(data[t] - bought_price) 
+                reward = delta - (COMMISSIONPCT * data[t])
+                total_profit += reward
+                hasPosition = False
+            # buy sig and only long
+            elif action == 1 and not isShort: 
+                # dont buy new stocks, but punish action bc should only choose sell then
+                reward = 0
+            # Sell signal if we have a long position
+            elif action == 2 and not isShort:
+                bought_price = agent.inventory.pop(0)
+                delta = data[t] - bought_price
+                reward = delta - (COMMISSIONPCT * data[t])
+                total_profit += reward
+                hasPosition = False
+            # sell signal and have short
+            elif action == 2 and isShort:
+                # dont buy new stocks, but punish action bc should only choose sell then
+                reward = 0
+            # HOLD
+            else:
+                pass
 
         done = (t == data_length - 1)
         agent.memory.append((state, action, reward, next_state, done))
@@ -144,5 +162,5 @@ def evaluate_model(agent, data, window_size, debug):
         state = next_state
         actionCollection.append(action)
         if done:
-            print("Final decision: ",dec, " at ",format_currency(data[t]))
+            #print("Final decision: ",dec, " at ",format_currency(data[t]))
             return total_profit, history, actionCollection
