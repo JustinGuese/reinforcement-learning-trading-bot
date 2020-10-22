@@ -10,7 +10,7 @@ from .ops import (
     get_state
 )
 
-SAVEEVERY = 1  # save every x episodes
+SAVEEVERY = 50  # save every x episodes
 
 
 def train_model(agent, episode, data, ep_count=100, batch_size=32, window_size=10):
