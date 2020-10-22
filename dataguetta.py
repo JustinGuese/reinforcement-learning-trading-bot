@@ -10,7 +10,8 @@ elif len(sys.argv) != 3:
 
 STOCK = sys.argv[1]
 INT = sys.argv[2]
-period = "max"
+# specify according to needs
+period = "1y"
 if "h" in INT:
     period = "720d"
 elif "5m" in INT:
