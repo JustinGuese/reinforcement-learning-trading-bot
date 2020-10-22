@@ -25,9 +25,13 @@ conda install tensorflow-gpu
 pip install -r requirements_noTF.txt
 ```
 
-## run it
+# run it
 
-# options
+## direct
+
+`python train.py data/AAPL_1d_train.csv data/AAPL_1d_test.csv --model-name aapl1d --cpu`
+
+## via file
 
 ```
 train_stock = "data/BTCUSD=X_1d_train.csv"
@@ -74,3 +78,4 @@ main(train_stock, val_stock, window_size, batch_size,
              ep_count, strategy=strategy, model_name=model_name, 
              pretrained=pretrained, debug=debug)
 ```
+
