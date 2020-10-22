@@ -27,9 +27,9 @@ test = data[a:]
 # Date,Open,High,Low,Close,Close,Volume
 # 2010-08-12,17.799999,17.900000,17.389999,17.600000,17.600000,691000
 
-data.to_csv("data/%s_%s_all.csv"%(STOCK,INT))
-train.to_csv("data/%s_%s_train.csv"%(STOCK,INT))
-test.to_csv("data/%s_%s_test.csv"%(STOCK,INT))
+data.to_csv("data/%s_%s_all.csv.gz"%(STOCK,INT),compression="gzip")
+train.to_csv("data/%s_%s_train.csv.gz"%(STOCK,INT),compression="gzip")
+test.to_csv("data/%s_%s_test.csv.gz"%(STOCK,INT),compression="gzip")
 
 print(train.head())
 print(train.shape,data.shape)

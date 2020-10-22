@@ -37,9 +37,9 @@ def get_stock_datal(stock_file):
     """
     # Datetime = Date if non hourly
     try:
-        df = pd.read_csv(stock_file,parse_dates=['Datetime'], index_col=['Datetime'])
+        df = pd.read_csv(stock_file,parse_dates=['Datetime'], index_col=['Datetime'],compression="gzip")
     except ValueError: # bc yfinance day = Date, intraday datetime
-        df = pd.read_csv(stock_file,parse_dates=['Date'], index_col=['Date'])
+        df = pd.read_csv(stock_file,parse_dates=['Date'], index_col=['Date'],compression="gzip")
     # todo cut out weekend (non trading day)
     df = df[df.index.dayofweek < 5]
     #df = df[df.columns[1:]] # drop date
