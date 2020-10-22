@@ -6,5 +6,5 @@ ADD . /src/
 RUN chmod a+x /src/dockerTrain.sh
 RUN pip install -r requirements_noTF.txt
 RUN ls /src
-RUN cd src
+WORKDIR "/src"
 CMD [ "./dockerTrain.sh" ] 
