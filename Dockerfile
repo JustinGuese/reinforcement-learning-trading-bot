@@ -1,4 +1,4 @@
-FROM nvidia/cuda:runtime
+FROM nvidia/11.0-runtime
 RUN conda install pip -y
 ADD requirements_noTF.txt /
 RUN mkdir -p src
