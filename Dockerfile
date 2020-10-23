@@ -1,4 +1,5 @@
-FROM nvidia/tensorflow:latest
+FROM nvidia/cuda:runtime
+RUN conda install pip -y
 ADD requirements_noTF.txt /
 RUN mkdir -p src
 ADD . /src/
