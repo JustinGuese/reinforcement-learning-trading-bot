@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-base
+FROM nvidia/tensorflow:latest
 ADD requirements_noTF.txt /
 RUN mkdir -p src
 ADD . /src/
