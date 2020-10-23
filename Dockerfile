@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:latest-py3 
+FROM tensorflow/tensorflow:2.1.0
 ADD requirements_noTF.txt /
 RUN mkdir -p src
 ADD . /src/
