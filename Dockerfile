@@ -1,4 +1,4 @@
-FROM nvidia/11.0-runtime
+FROM nvidia/11.1-runtime-centos8
 RUN conda install pip -y
 ADD requirements_noTF.txt /
 RUN mkdir -p src
