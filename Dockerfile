@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:latest # optional -gpu
+FROM tensorflow/tensorflow:latest 
 ADD requirements_noTF.txt /
 RUN mkdir -p src
 ADD . /src/
