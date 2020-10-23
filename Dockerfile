@@ -1,5 +1,5 @@
-FROM nvidia/11.1-runtime-centos8
-RUN conda install pip -y
+FROM continuumio/miniconda:latest
+RUN conda install pip tensorflow -y
 ADD requirements_noTF.txt /
 RUN mkdir -p src
 ADD . /src/
