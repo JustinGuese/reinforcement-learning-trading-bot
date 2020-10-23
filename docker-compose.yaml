@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  rftrainer:
+    build: .
+    container_name: rftrainer
+    command: bash -c 'python train.py "data/BTCUSD=X_1d_train.csv.gz" "data/BTCUSD=X_1d_test.csv.gz" --model-name btcusd1d --episode-count 200 --cpu'
+    volumes:
+        - ./data:/src/data
+        - ./models:/src/models
+        - ./scalers:/src/scalers
