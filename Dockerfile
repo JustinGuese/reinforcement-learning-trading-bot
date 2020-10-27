@@ -1,5 +1,5 @@
 FROM python:latest
-RUN pip install --no-cache-dir tensorflow -y
+RUN pip install tensorflow --no-cache-dir
 ADD requirements_noTF.txt /
 RUN mkdir -p src
 ADD . /src/
