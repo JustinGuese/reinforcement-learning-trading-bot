@@ -1,5 +1,5 @@
-FROM continuumio/miniconda:latest
-RUN conda install pip tensorflow -y
+FROM python:latest
+RUN pip install --no-cache-dir tensorflow -y
 ADD requirements_noTF.txt /
 RUN mkdir -p src
 ADD . /src/
