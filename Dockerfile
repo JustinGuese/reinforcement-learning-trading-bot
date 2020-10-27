@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.8
 RUN pip install tensorflow --no-cache-dir
 ADD requirements_noTF.txt /
 RUN mkdir -p src
